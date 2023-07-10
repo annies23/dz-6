@@ -5,7 +5,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
 
-        printEvenChars(new String[] {"мама", "тато", "їж їжак желе", "івавіавіав", "папа"});
+        printEvenChars(new String[] {"мама", "тато", "їж їжак желе", "папа"});
     }
     public static void printEvenChars (String[] words) {
         List<String> evenWords = new ArrayList<>();
