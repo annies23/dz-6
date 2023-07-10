@@ -1,64 +1,53 @@
 package org.example;
 
+import java.util.*;
+
 public class Main {
     public static void main(String[] args) {
 
-        String [] arrayOfSrting = {"мама", "папа", "їж їжак желе"};
-        int count = 0;
-
-        char [] preFinalResult = new char [(arrayOfSrting[0].length()+arrayOfSrting[1].length()) / 2];
-        int counterForPreFinalResult=0;
-        for (int i = 0 ; i < arrayOfSrting.length; i++)
-        {
-            if (count == 2)
-            {
-                break;
-            }
-            char[] itemCharArray = arrayOfSrting[i].toCharArray();
-            // char a1;
-            for (int j = 0 ; j < itemCharArray.length; j++) {
-                char a1 = itemCharArray[j];
-                int countOfUniqueChar = 0;
-                for (int k = j + 1 ; k < itemCharArray.length; k++) {
-                    char a2 = itemCharArray[k];
-                    if (a1 == a2)
-                    {
-                        countOfUniqueChar++;
-
-                    }
-                }
-                if (countOfUniqueChar%2 == 0)
-                {
-                    preFinalResult[counterForPreFinalResult] = a1;
-                    counterForPreFinalResult++;
-                }
-            }
-            count++;
-        }
-
-        char[] finalResult = new char[preFinalResult.length];
-        int uniqueCount = 0;
-
-        for (int i = 0; i < preFinalResult.length; i++) {
-            char a1 = preFinalResult[i];
-            boolean isDuplicate = false;
-
-            for (int j = 0; j < uniqueCount; j++) {
-                if (finalResult[j] == a1) {
-                    isDuplicate = true;
+        printEvenChars(new String[] {"мама", "тато", "їж їжак желе", "івавіавіав", "папа"});
+    }
+    public static void printEvenChars (String[] words) {
+        List<String> evenWords = new ArrayList<>();
+        int counter = 0;
+        for (String word : words) {
+            Map<Character, Integer> charCount = countCharacters(word);
+            if (isEvenCountOfChars(charCount)) {
+                evenWords.add(word);
+                if (++ counter == 2)
                     break;
-                }
-            }
-
-            if (!isDuplicate) {
-                finalResult[uniqueCount] = a1;
-                uniqueCount++;
             }
         }
+        Set<Character> uniqueChars = getUniqueChars(evenWords);
+        System.out.println(uniqueChars);
+    }
 
-        char[] result = new char[uniqueCount];
-        for (int i = 0; i < uniqueCount; i++) {
-            result[i] = finalResult[i];
+    private static Map<Character, Integer> countCharacters(String word) {
+        char[] chars = word.toCharArray();
+        Map<Character, Integer> charCount = new HashMap<>();
+
+        for (char ch : chars) {
+            charCount.put(ch, charCount.getOrDefault(ch, 0) + 1);
         }
+        return charCount;
+    }
+
+    private static Set<Character> getUniqueChars(List<String> list) {
+        Set<Character> uniqueChars = new HashSet<>();
+        for (String word : list) {
+            char[] chars = word.toCharArray();
+            for (char ch : chars)
+                uniqueChars.add(ch);
+        }
+        return uniqueChars;
+    }
+
+    private static boolean isEvenCountOfChars(Map<Character, Integer> charCount) {
+        boolean isEven = false;
+        for (Character ch : charCount.keySet()) {
+            isEven = charCount.get(ch) % 2 == 0;
+            if (!isEven) break;
+        }
+        return isEven;
     }
 }
